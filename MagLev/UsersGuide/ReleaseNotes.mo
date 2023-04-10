@@ -3,9 +3,14 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 1.5.0, 2023-04-10 Anton Haumer</h5>
+<ul>
+  <li>Enhanced f2i: more concise determination of force limits</li>
+  <li>Enhanced dc/dc converter</li>
+</ul>
+
 <h5>Version 1.4.0, 2023-04-09 Anton Haumer</h5>
 <ul>
-  <li>Some minor enhancements</li>
   <li>Corrected parameters</li>
   <li>More concise implementation of discrete blocks</li>
 </ul>

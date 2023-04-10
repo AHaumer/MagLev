@@ -44,6 +44,7 @@ model SpeedControl "Speed controlled system"
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.fMax,
+    constantLowerLimit=false,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     x_start=data.f0,
@@ -71,16 +72,13 @@ equation
                                     color={0,0,255}));
   connect(converter.dc_n2, coil.pin_n) annotation (Line(points={{74,20},{74,10}}, color={0,0,255}));
   connect(converter.dc_p2, coil.pin_p) annotation (Line(points={{86,20},{86,10}}, color={0,0,255}));
-  connect(speedController.y, f2i.u) annotation (Line(points={{-59,30},{-52,
-          30}},                                                                  color={0,0,127}));
+  connect(speedController.y, f2i.u) annotation (Line(points={{-59,30},{-52,30}}, color={0,0,127}));
   connect(vRef.y, firstOrder.u)
     annotation (Line(points={{-119,30},{-112,30}}, color={0,0,127}));
   connect(f2i.y, currentController.u) annotation (Line(points={{-29,30},{
           -22,30}},                                                                color={0,0,127}));
-  connect(firstOrder.y, speedController.u) annotation (Line(points={{-89,30},
-          {-82,30}},                                                                      color={0,0,127}));
-  connect(f2i.fMax, speedController.yMaxVar) annotation (Line(points={{-51,36},
-          {-58,36}},                                                                      color={0,0,127}));
+  connect(firstOrder.y, speedController.u) annotation (Line(points={{-89,30},{-82,30}},   color={0,0,127}));
+  connect(f2i.fMax, speedController.yMaxVar) annotation (Line(points={{-51,36},{-58,36}}, color={0,0,127}));
   connect(currentController.yMaxVar, adda.vBat)
     annotation (Line(points={{2,36},{29,36}}, color={0,0,127}));
   connect(currentController.y, adda.v)
@@ -98,11 +96,12 @@ equation
           2,-4}}, color={0,0,127}));
   connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},
           {2,-10}}, color={0,0,127}));
-  connect(e2d.d_der, speedController.u_m) annotation (Line(points={{-21,-4},
-          {-76,-4},{-76,18}}, color={0,0,127}));
+  connect(e2d.d_der, speedController.u_m) annotation (Line(points={{-21,-4},{-76,-4},{-76,18}},
+                              color={0,0,127}));
   connect(e2d.d, f2i.d) annotation (Line(points={{-21,-10},{-40,-10},{-40,
           18}}, color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
+  connect(f2i.fMin, speedController.yMinVar) annotation (Line(points={{-51,24},{-54.5,24},{-54.5,24},{-58,24}}, color={0,0,127}));
   annotation (experiment(
       StopTime=0.1,
       Interval=5e-05,

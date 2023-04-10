@@ -12,9 +12,11 @@ block F2i "Transform reference force to reference current"
         rotation=90,
         origin={0,-120})));
   Modelica.Blocks.Interfaces.RealOutput fMax "Connector of Real output signal" annotation (Placement(transformation(extent={{-100,50},{-120,70}})));
+  Modelica.Blocks.Interfaces.RealOutput fMin "Connector of Real output signal" annotation (Placement(transformation(extent={{-100,-70},{-120,-50}})));
 equation
   y = u/k*(abs(if useSteadyStatePosition then d0 else d))^pd - iC;
   fMax = (iC + iMax)*k/(abs(if useSteadyStatePosition then d0 else d))^pd;
+  fMin = iC*k/(abs(if useSteadyStatePosition then d0 else d))^pd;
   annotation (Documentation(info="<html>
 <p>
 Calculates reference current from reference force, either using steady-state position or actual position of magnet. 
