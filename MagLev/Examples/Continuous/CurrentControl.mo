@@ -18,15 +18,16 @@ model CurrentControl "Current controlled system"
   Modelica.Blocks.Sources.Constant iRef(k=data.i0)  annotation (Placement(transformation(extent={{-50,20},
             {-30,40}})));
   Control.Continuous.LimitedPI currentController(
-    k=data.kpI,
+    kp=data.kpI,
+    x0=data.v0,
+    y0=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
     yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x_start=data.v0,
-    y_start=data.v0) annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    initType=Modelica.Blocks.Types.Init.InitialOutput)
+                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Averaging.Converter converter(fSw=data.fSw)                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,

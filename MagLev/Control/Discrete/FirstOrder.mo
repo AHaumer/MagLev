@@ -10,12 +10,14 @@ block FirstOrder "First order transfer function block (= 1 pole)"
   parameter Real y_start=0 "Initial or guess value of output (= state)"
     annotation (Dialog(group="Initialization"));
 initial equation
-  if initType == Init.InitialState or initType == Init.InitialOutput then
-    pre(y) = y_start;
+  if initType == Init.SteadyState then
+    k*u - y = 0;
+  elseif initType == Init.InitialState or initType == Init.InitialOutput then
+    y = y_start;
   end if;
 equation
   when sampleTrigger then
-    y = (pre(y)*T + k*u*samplePeriod)/(T + samplePeriod);
+    y = pre(y) +  (k*u - pre(y))/T*samplePeriod;
   end when;
   annotation (
     Documentation(info="<html>

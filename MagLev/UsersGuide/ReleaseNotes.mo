@@ -3,6 +3,11 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 1.6.0, 2023-04-13 Anton Haumer</h5>
+<ul>
+  <li>Simplified and unified continuous and discrte limited PI-controller</li>
+</ul>
+
 <h5>Version 1.5.0, 2023-04-10 Anton Haumer</h5>
 <ul>
   <li>Enhanced f2i: more concise determination of force limits</li>

@@ -18,15 +18,16 @@ model SpeedControl "Speed controlled system"
   Modelica.Blocks.Sources.Constant vRef(k=0)        annotation (Placement(transformation(extent={{-140,20},
             {-120,40}})));
   Control.Continuous.LimitedPI currentController(
-    k=data.kpI,
+    kp=data.kpI,
+    x0=data.v0,
+    y0=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
     yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x_start=data.v0,
-    y_start=data.v0) annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    initType=Modelica.Blocks.Types.Init.InitialOutput)
+                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Averaging.Converter converter(fSw=data.fSw)                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -39,16 +40,17 @@ model SpeedControl "Speed controlled system"
     useSteadyStatePosition=false,         d0=data.d0)
     annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
   Control.Continuous.LimitedPI speedController(
-    k=data.kpv,
+    kp=data.kpv,
+    x0=data.f0,
+    y0=data.f0,
     Ti=data.Tiv,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.fMax,
     constantLowerLimit=false,
     yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x_start=data.f0,
-    y_start=data.f0) annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+    initType=Modelica.Blocks.Types.Init.InitialOutput)
+                     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder(
     k=1,
     T=data.Tiv,                                    initType=Modelica.Blocks.Types.Init.InitialOutput,
