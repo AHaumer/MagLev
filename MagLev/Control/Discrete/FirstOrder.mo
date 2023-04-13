@@ -17,7 +17,8 @@ initial equation
   end if;
 equation
   when sampleTrigger then
-    y = pre(y) +  (k*u - pre(y))/T*samplePeriod;
+  //y = pre(y) +  (k*u - pre(y))/T*samplePeriod;
+    y = (pre(y) +  k*u*samplePeriod/T)/(1 + samplePeriod/T);
   end when;
   annotation (
     Documentation(info="<html>

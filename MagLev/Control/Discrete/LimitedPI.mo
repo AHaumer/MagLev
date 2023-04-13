@@ -18,6 +18,7 @@ initial equation
   else //initType==Init.InitialOutput
     y = y0;
   end if;
+  // avoid an algebraic loop / iteration for code on embedded controller
 algorithm
   when sampleTrigger then
     e :=  u - u_m;
