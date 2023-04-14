@@ -22,12 +22,12 @@ initial equation
 algorithm
   when sampleTrigger then
     e :=  u - u_m;
-    x := pre(x) + samplePeriod/Ti*e;
+    x := pre(x) + samplePeriod*e/Ti;
     preview := kp*e + kp*x + kFF*ffInternal;
     cropped := preview - min(max(preview, yMin), yMax);
-    x := pre(x) + samplePeriod/Ti*
+    x := pre(x) + samplePeriod*
       (if antiWindup==AntiWindup.BackCalc then (e - cropped/kp)
-      else (if cropped>small then 0 else e));
+       else (if cropped>small then 0 else e))/Ti;
     y := min(max(kp*e + kp*x + kFF*ffInternal, yMin), yMax);
   end when;
   annotation (
