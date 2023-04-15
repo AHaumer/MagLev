@@ -1,11 +1,13 @@
 within MagLev.Control.Discrete;
 block Der "Derivative of input (= analytic differentiations)"
   extends Modelica.Blocks.Interfaces.DiscreteSISO;
-
+protected
+  discrete Real y_last;
 equation
   when sampleTrigger then
-    y = (u - pre(u))/samplePeriod;
+    y_last = (u - pre(u))/samplePeriod;
   end when;
+  y = y_last;
     annotation (defaultComponentName="der1",
  Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,100}}),
         graphics={Text(

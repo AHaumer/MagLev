@@ -56,7 +56,7 @@ model SpeedControl "Speed controlled system"
     T=data.Tiv,                                    initType=Modelica.Blocks.Types.Init.InitialOutput,
     y_start=0)
     annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
-  Control.Continuous.Adda adda(samplePeriod=1/data.fSw) annotation (Placement(transformation(extent={{30,18},{50,38}})));
+  Control.Continuous.Adda adda(Td=data.Td)              annotation (Placement(transformation(extent={{30,18},{50,38}})));
   Control.Continuous.E2d e2d(
     samplePeriod=1/data.fSw,
     alfa=data.alfa,

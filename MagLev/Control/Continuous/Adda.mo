@@ -1,8 +1,7 @@
 within MagLev.Control.Continuous;
 block Adda "AD/DA conversion"
   extends Modelica.Blocks.Icons.Block;
-  parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start=0.1)
-    "Sample period of component";
+  parameter SI.Time Td(min=100*Modelica.Constants.eps, start=0.1) "Total dead time";
   Modelica.Blocks.Interfaces.RealInput vSrc
     annotation (Placement(transformation(extent={{140,60},{100,100}})));
   Modelica.Blocks.Interfaces.RealInput v
@@ -21,19 +20,19 @@ block Adda "AD/DA conversion"
     annotation (Placement(transformation(extent={{-100,-110},{-120,-90}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder1(
     k=1,
-    T=samplePeriod/2,
+    T=Td/2,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{10,70},{-10,90}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder2(
     k=1,
-    T=samplePeriod/2,
+    T=Td/2,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-10,10},{10,30}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder3(
     k=1,
-    T=samplePeriod/2,
+    T=Td/2,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{10,-50},{-10,-30}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder4(
     k=1,
-    T=samplePeriod/2,
+    T=Td/2,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{10,-100},{-10,-80}})));
 equation
   connect(firstOrder1.y, vBat) annotation (Line(points={{-11,80},{-110,80}}, color={0,0,127}));

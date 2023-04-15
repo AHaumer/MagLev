@@ -2,7 +2,7 @@ within MagLev.Control.Continuous;
 block E2d "Calculate position from hall sensor signal"
   extends Modelica.Blocks.Icons.Block;
   extends MagLev.Control.BaseBlocks.E2d;
-  parameter SI.Time T(min=Modelica.Constants.small) = 0.5*samplePeriod
+  parameter SI.Time T(min=Modelica.Constants.small)=0.5*samplePeriod
     "Time constants (T>0 required; T=0 is ideal derivative block)";
   Modelica.Blocks.Continuous.Derivative dt1(
     k=1,

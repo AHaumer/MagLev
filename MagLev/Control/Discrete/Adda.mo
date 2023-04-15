@@ -1,6 +1,9 @@
 within MagLev.Control.Discrete;
 block Adda "AD/DA conversion"
-  extends Modelica.Blocks.Interfaces.DiscreteBlock;
+  extends Modelica.Blocks.Icons.DiscreteBlock;
+  parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start=0.1)
+    "Sample period of component";
+  parameter SI.Time startTime=0 "First sample time instant";
   Modelica.Blocks.Interfaces.RealInput vSrc
     annotation (Placement(transformation(extent={{140,60},{100,100}})));
   Modelica.Blocks.Interfaces.RealInput v
@@ -17,13 +20,19 @@ block Adda "AD/DA conversion"
     annotation (Placement(transformation(extent={{-100,-50},{-120,-30}})));
   Modelica.Blocks.Interfaces.RealOutput e
     annotation (Placement(transformation(extent={{-100,-110},{-120,-90}})));
+  Modelica.Blocks.Discrete.Sampler sampler1(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{10,70},{-10,90}})));
+  Modelica.Blocks.Discrete.Sampler sampler2(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{-10,10},{10,30}})));
+  Modelica.Blocks.Discrete.Sampler sampler3(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{10,-50},{-10,-30}})));
+  Modelica.Blocks.Discrete.Sampler sampler4(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{10,-100},{-10,-80}})));
 equation
-  when {sampleTrigger, initial()} then
-    vBat = vSrc;
-    vRef = v;
-    i = iAct;
-    e = eAct;
-  end when;
+  connect(sampler1.u, vSrc) annotation (Line(points={{12,80},{120,80}}, color={0,0,127}));
+  connect(sampler2.y, vRef) annotation (Line(points={{11,20},{110,20}}, color={0,0,127}));
+  connect(sampler1.y, vBat) annotation (Line(points={{-11,80},{-110,80}}, color={0,0,127}));
+  connect(v, sampler2.u) annotation (Line(points={{-120,20},{-12,20}}, color={0,0,127}));
+  connect(i, sampler3.y) annotation (Line(points={{-110,-40},{-11,-40}}, color={0,0,127}));
+  connect(sampler3.u, iAct) annotation (Line(points={{12,-40},{120,-40}}, color={0,0,127}));
+  connect(sampler4.u, eAct) annotation (Line(points={{12,-90},{20,-90},{20,-100},{120,-100}}, color={0,0,127}));
+  connect(sampler4.y, e) annotation (Line(points={{-11,-90},{-20,-90},{-20,-100},{-110,-100}}, color={0,0,127}));
   annotation (Icon(graphics={
         Text(
           extent={{-10,-22},{30,-60}},

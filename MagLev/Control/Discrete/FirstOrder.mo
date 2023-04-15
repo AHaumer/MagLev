@@ -1,6 +1,6 @@
 within MagLev.Control.Discrete;
 block FirstOrder "First order transfer function block (= 1 pole)"
-  extends Modelica.Blocks.Interfaces.DiscreteSISO(final startTime=0, y(start=y_start));
+  extends Modelica.Blocks.Interfaces.DiscreteSISO(y(start=y_start));
   import Modelica.Blocks.Types.Init;
   parameter Real k(unit="1")=1 "Gain";
   parameter Modelica.Units.SI.Time T(start=1) "Time Constant";
@@ -9,17 +9,19 @@ block FirstOrder "First order transfer function block (= 1 pole)"
       Dialog(group="Initialization"));
   parameter Real y_start=0 "Initial or guess value of output (= state)"
     annotation (Dialog(group="Initialization"));
+protected
+  discrete Real y_last;
 initial equation
   if initType == Init.SteadyState then
     k*u - y = 0;
   elseif initType == Init.InitialState or initType == Init.InitialOutput then
-    y = y_start;
+    y_last = y_start;
   end if;
 equation
   when sampleTrigger then
-  //y = pre(y) +  (k*u - pre(y))/T*samplePeriod;
-    y = (pre(y) +  k*u*samplePeriod/T)/(1 + samplePeriod/T);
+    y_last = (pre(y_last) +  k*u*samplePeriod/T)/(1 + samplePeriod/T);
   end when;
+  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

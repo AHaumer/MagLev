@@ -15,17 +15,20 @@ block Derivative "Approximated derivative block"
     annotation(Dialog(enable=initType == Init.InitialOutput, group=
           "Initialization"));
   output Real x(start=x_start) "State of block";
+protected
+  discrete Real y_last;
 initial equation
   if initType == Init.InitialState then
     x = x_start;
   elseif initType == Init.InitialOutput then
-    y = y_start;
+    y_last = y_start;
   end if;
 equation
   when sampleTrigger then
     x = (pre(x) + u*samplePeriod/T)/(1 + samplePeriod/T);
-    y = k*(u - x)/T;
+    y_last = k*(u - x)/T;
   end when;
+  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

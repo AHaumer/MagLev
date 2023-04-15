@@ -1,6 +1,6 @@
 within MagLev.Control.Discrete;
 block LimitedPI "Discrete limited PI-controller with anti-windup and feed-forward"
-  extends Modelica.Blocks.Interfaces.DiscreteSISO(final startTime=0);
+  extends Modelica.Blocks.Interfaces.DiscreteSISO;
   extends BaseBlocks.LimitedPI;
   import Modelica.Blocks.Types.Init;
   import MagLev.Types.AntiWindup;
@@ -10,26 +10,27 @@ block LimitedPI "Discrete limited PI-controller with anti-windup and feed-forwar
 protected
   discrete Real preview(start=y0);
   discrete Real cropped(start=0);
+  discrete Real y_last;
 initial equation
   if initType==Init.SteadyState then
     (e - cropped/kp) = 0;
   elseif initType==Init.InitialState then
     x = x0;
   else //initType==Init.InitialOutput
-    y = y0;
+    y_last = y0;
   end if;
   // avoid an algebraic loop / iteration for code on embedded controller
-algorithm
+equation
   when sampleTrigger then
-    e :=  u - u_m;
-    x := pre(x) + samplePeriod/Ti*e;
-    preview := kp*e + kp*x + kFF*ffInternal;
-    cropped := preview - min(max(preview, yMin), yMax);
-    x := pre(x) + samplePeriod/Ti*
+    e =   u - u_m;
+    preview =  kp*e + kp*(pre(x) + samplePeriod/Ti*e) + kFF*ffInternal;
+    cropped =  preview - min(max(preview, yMin), yMax);
+    x =  pre(x) + samplePeriod/Ti*
       (if antiWindup==AntiWindup.BackCalc then (e - cropped/kp)
       else (if cropped>small then 0 else e));
-    y := min(max(kp*e + kp*x + kFF*ffInternal, yMin), yMax);
+    y_last =  min(max(kp*e + kp*x + kFF*ffInternal, yMin), yMax);
   end when;
+  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

@@ -3,6 +3,11 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 1.7.0, 2023-04-15 Anton Haumer</h5>
+<ul>
+  <li>Unambiguous sequence of tasks during siwtching period: AD/DA - preFilter - speedController - currentController (leads to deadTime = 1.5/fSw)</li>
+</ul>
+
 <h5>Version 1.6.0, 2023-04-13 Anton Haumer</h5>
 <ul>
   <li>Simplified and unified continuous and discrte limited PI-controller</li>

@@ -33,7 +33,7 @@ model CurrentControl "Current controlled system"
         rotation=270,
         origin={80,30})));
   parameter ParameterRecords.DataZeltomStd data(dNoise=0) annotation (Placement(transformation(extent={{10,60},{30,80}})));
-  Control.Continuous.Adda adda(samplePeriod=1/data.fSw) annotation (Placement(transformation(extent={{30,18},{50,38}})));
+  Control.Continuous.Adda adda(Td=data.Td)              annotation (Placement(transformation(extent={{30,18},{50,38}})));
   Control.Continuous.E2d e2d(
     samplePeriod=1/data.fSw,
     alfa=data.alfa,
@@ -66,10 +66,10 @@ equation
     annotation (Line(points={{1,30},{28,30}}, color={0,0,127}));
   connect(adda.i, currentController.u_m) annotation (Line(points={{29,24},{
           10,24},{10,10},{-16,10},{-16,18}}, color={0,0,127}));
-  connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{
-          2,-4}}, color={0,0,127}));
-  connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},
-          {2,-10}}, color={0,0,127}));
+  connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{2,-4}},
+                  color={0,0,127}));
+  connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},{2,-10}},
+                    color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
   annotation (experiment(
       StopTime=0.1,

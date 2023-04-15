@@ -57,7 +57,7 @@ model PositionControl "Position controlled system"
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Continuous.Adda
-                        adda(samplePeriod=1/data.fSw) annotation (Placement(transformation(extent={{30,18},{50,38}})));
+                        adda(Td=data.Td)              annotation (Placement(transformation(extent={{30,18},{50,38}})));
   Control.Continuous.E2d
                        e2d(
     samplePeriod=1/data.fSw,
@@ -72,7 +72,7 @@ model PositionControl "Position controlled system"
                                                                                 offset=data.d0)
                                                                                annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
   Components.Visualization visualization annotation (Placement(transformation(extent={{10,-100},{50,-20}})));
-  Control.PController positionController(kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
+  Control.Continuous.PController positionController(Td=data.Td, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
 equation
   connect(voltageSource.n, ground.p) annotation (Line(points={{70,60},{70,50}}, color={0,0,255}));
   connect(voltageSource.n, converter.dc_n1) annotation (Line(points={{70,60},{70,50},{74,50},{74,40}}, color={0,0,255}));

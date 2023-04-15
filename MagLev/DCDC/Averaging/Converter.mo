@@ -10,7 +10,7 @@ model Converter "Converter including measurement and basic control"
         origin={0,-50})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder(
     k=1,
-    T=1/fSw,
+    T=0.75/fSw,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
   Modelica.Blocks.Sources.Constant zero(k=0) annotation (Placement(transformation(extent={{40,-80},{20,-60}})));
 equation

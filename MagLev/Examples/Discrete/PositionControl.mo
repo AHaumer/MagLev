@@ -17,6 +17,7 @@ model PositionControl "Position controlled system"
         origin={60,50})));
   Control.Discrete.LimitedPI currentController(
     samplePeriod=1/data.fSw,
+    startTime=0.3/data.fSw,
     kp=data.kpI,
     x0=data.v0,
     y0=data.v0,
@@ -27,7 +28,7 @@ model PositionControl "Position controlled system"
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     x(start=data.v0, fixed=true))
-                     annotation (Placement(transformation(extent={{-22,20},{-2,40}})));
+                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Switching.Converter converter(fSw=data.fSw)
       annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -42,6 +43,7 @@ model PositionControl "Position controlled system"
     annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
   Control.Discrete.LimitedPI speedController(
     samplePeriod=1/data.fSw,
+    startTime=0.2/data.fSw,
     kp=data.kpv,
     x0=data.f0,
     y0=data.f0,
@@ -56,12 +58,12 @@ model PositionControl "Position controlled system"
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Control.Discrete.FirstOrder firstOrder(
     samplePeriod=1/data.fSw,
+    startTime=0.1/data.fSw,
     k=1,
     T=data.Tiv,
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
-  Control.PController  positionController(kp=data.ktuneP*data.kpP)
-               annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
+  Control.Discrete.PController positionController(samplePeriod=1/data.fSw, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
   Control.Discrete.Adda adda(samplePeriod=1/data.fSw) annotation (Placement(transformation(extent={{30,18},{50,38}})));
   Control.Discrete.E2d e2d(
     samplePeriod=1/data.fSw,
@@ -85,15 +87,15 @@ equation
   connect(converter.dc_p2, coil.pin_p) annotation (Line(points={{86,20},{86,10}}, color={0,0,255}));
   connect(speedController.y, f2i.u) annotation (Line(points={{-59,30},{-52,30}}, color={0,0,127}));
   connect(positionController.y, firstOrder.u) annotation (Line(points={{-119,30},{-112,30}}, color={0,0,127}));
-  connect(f2i.y, currentController.u) annotation (Line(points={{-29,30},{-24,30}}, color={0,0,127}));
+  connect(f2i.y, currentController.u) annotation (Line(points={{-29,30},{-22,30}}, color={0,0,127}));
   connect(firstOrder.y, speedController.u) annotation (Line(points={{-89,30},{-82,30}}, color={0,0,127}));
   connect(f2i.fMax, speedController.yMaxVar) annotation (Line(points={{-51,36},{-58,36}},                       color={0,0,127}));
   connect(adda.vRef, converter.vRef) annotation (Line(points={{51,30},{68,30}}, color={0,0,127}));
   connect(currentController.yMaxVar, adda.vBat)
-    annotation (Line(points={{0,36},{29,36}}, color={0,0,127}));
+    annotation (Line(points={{2,36},{29,36}}, color={0,0,127}));
   connect(currentController.y, adda.v)
-    annotation (Line(points={{-1,30},{28,30}},color={0,0,127}));
-  connect(adda.i, currentController.u_m) annotation (Line(points={{29,24},{10,24},{10,10},{-18,10},{-18,18}},
+    annotation (Line(points={{1,30},{28,30}}, color={0,0,127}));
+  connect(adda.i, currentController.u_m) annotation (Line(points={{29,24},{10,24},{10,10},{-16,10},{-16,18}},
                                              color={0,0,127}));
   connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{2,-4}},
                   color={0,0,127}));
