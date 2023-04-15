@@ -21,8 +21,8 @@ initial equation
 equation
   e = u - u_m;
   der(x) =
-    if antiWindup==AntiWindup.BackCalc then (e - cropped/kp)/Ti
-    else (if cropped>small then 0 else e/Ti);
+    if antiWindup==AntiWindup.BackCalc then (e - cropped/kp)
+    else (if cropped>small then 0 else e)/Ti;
   preview =kp*e + kp*x + kFF*ffInternal;
   y = min(max(preview, yMinInt), yMaxInt);
   cropped = preview - y;
