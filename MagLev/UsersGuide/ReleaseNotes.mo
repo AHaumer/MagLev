@@ -3,6 +3,11 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 1.9.0, 2023-04-17 Anton Haumer</h5>
+<ul>
+  <li>Implemented clocked version (in parallel to discrete triggered version)</li>
+</ul>
+
 <h5>Version 1.8.0, 2023-04-17 Anton Haumer</h5>
 <ul>
   <li>Some improvements about dead time at sample and hold</li>

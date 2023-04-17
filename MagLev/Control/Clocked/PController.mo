@@ -1,7 +1,6 @@
-within MagLev.Control.Continuous;
+within MagLev.Control.Clocked;
 block PController "Simple proportional controller"
-  extends Modelica.Blocks.Interfaces.SISO;
-  parameter SI.Time Tds(min=100*Modelica.Constants.eps, start=0.1) "Dead time at sample";
+  extends Modelica.Clocked.RealSignals.Interfaces.PartialClockedSISO;
   parameter Real kp(unit="1")=1 "Proportional gain";
   Modelica.Blocks.Interfaces.RealInput u_m "Connector of measured signal"
     annotation (Placement(transformation(
@@ -10,16 +9,23 @@ block PController "Simple proportional controller"
         origin={0,-120})));
   Modelica.Blocks.Math.Feedback feedback annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Gain gain(k=kp) annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder(
-    k=1,
-    T=Tds,
-    initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
+  Modelica.Clocked.RealSignals.Sampler.SampleClocked
+                                   sample1                                                 annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
+  Modelica.Clocked.ClockSignals.Interfaces.ClockInput clock annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=90,
+        origin={-60,-120})));
 equation
   connect(feedback.u2, u_m) annotation (Line(points={{0,-8},{0,-120}}, color={0,0,127}));
   connect(feedback.y, gain.u) annotation (Line(points={{9,0},{18,0}}, color={0,0,127}));
   connect(gain.y, y) annotation (Line(points={{41,0},{110,0}}, color={0,0,127}));
-  connect(u, firstOrder.u) annotation (Line(points={{-120,0},{-72,0}}, color={0,0,127}));
-  connect(firstOrder.y, feedback.u1) annotation (Line(points={{-49,0},{-8,0}}, color={0,0,127}));
+  connect(sample1.y, feedback.u1) annotation (Line(points={{-49,0},{-8,0}},                     color={0,0,127}));
+  connect(sample1.u, u) annotation (Line(points={{-72,0},{-120,0}}, color={0,0,127}));
+  connect(clock, sample1.clock) annotation (Line(
+      points={{-60,-120},{-60,-12}},
+      color={175,175,175},
+      pattern=LinePattern.Dot,
+      thickness=0.5));
   annotation (Icon(graphics={
         Polygon(
           points={{-80,90},{-88,68},{-72,68},{-80,90}},

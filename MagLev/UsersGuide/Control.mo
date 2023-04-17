@@ -35,5 +35,25 @@ Note that it is necessary to calculate the magnet's position from the output of 
 Additionally it is necessary to calculate the magnet's velocity (some sort of observer), 
 and to calculate the reference current from reference force utilizing actual position.
 </p>
+<h4>Discrete control</h4>
+<p>
+It is important that all control blocks are executed within the same time schedule, i.e. with the same samplePeriod, and in the corrected sequence:
+</p>
+<ol>
+<li>AD/DA</li>
+<li>Position controller</li>
+<li>Speed controller</li>
+<li>Current controller</li>
+</ol>
+<p>
+Two versions are implemented:
+</p>
+<ul>
+<li>Discrete: the control tasks use the same samplePeriod, but are started slightly shifted in time.</li>
+<li>Clocked: the control tasks use the same <b>Clock</b> and rely that the correct sequence is determined by the causality of the signals.</li>
+</ul>
+<p>
+Note that the synchronization of the control tasks with the pwm of the DC/DC-converter is managed by useing the same samplePeriod (and the correct startTime).
+</p>
 </html>"));
 end Control;

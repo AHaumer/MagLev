@@ -1,6 +1,7 @@
 BaseBlocks
 Continuous
 Discrete
+Clocked
 InvertHallSensor
 F2i
 ReferencePosition

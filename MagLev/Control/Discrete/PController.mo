@@ -9,13 +9,13 @@ block PController "Simple proportional controller"
         origin={0,-120})));
   Modelica.Blocks.Math.Feedback feedback annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Gain gain(k=kp) annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  Modelica.Blocks.Discrete.Sampler sampler(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
+  Modelica.Blocks.Discrete.Sampler sampler(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
 equation
   connect(feedback.u2, u_m) annotation (Line(points={{0,-8},{0,-120}}, color={0,0,127}));
   connect(feedback.y, gain.u) annotation (Line(points={{9,0},{18,0}}, color={0,0,127}));
   connect(gain.y, y) annotation (Line(points={{41,0},{110,0}}, color={0,0,127}));
-  connect(sampler.y, feedback.u1) annotation (Line(points={{-19,0},{-14.5,0},{-14.5,0},{-8,0}}, color={0,0,127}));
-  connect(sampler.u, u) annotation (Line(points={{-42,0},{-120,0}}, color={0,0,127}));
+  connect(sampler.y, feedback.u1) annotation (Line(points={{-49,0},{-8,0}},                     color={0,0,127}));
+  connect(sampler.u, u) annotation (Line(points={{-72,0},{-120,0}}, color={0,0,127}));
   annotation (Icon(graphics={
         Polygon(
           points={{-80,90},{-88,68},{-72,68},{-80,90}},
