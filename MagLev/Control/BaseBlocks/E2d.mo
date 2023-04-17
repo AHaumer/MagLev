@@ -37,7 +37,7 @@ equation
           textColor={28,108,200},
           textString="d"),
         Text(
-          extent={{30,40},{90,80}},
+          extent={{10,46},{90,74}},
           textColor={28,108,200},
           textString="d_der")}), Documentation(info="<html>
 <p>
