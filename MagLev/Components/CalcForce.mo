@@ -16,5 +16,10 @@ equation
 <p>
 Calculates force on the magnet dependent on coil current and distance between magnet and coil.
 </p>
-</html>"));
+</html>"), Icon(graphics={Text(
+          extent={{-40,40},{40,-40}},
+          textColor={0,0,0},
+          fontName="serif",
+          textStyle={TextStyle.Italic},
+          textString="f")}));
 end CalcForce;

@@ -14,20 +14,42 @@ block HallSensor "Hall sensor"
         rotation=0,
         origin={-120,0})));
   Modelica.Blocks.Interfaces.RealOutput e(quantity="Voltage", unit="V") annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=alfa + beta/d^2 + gamma*i) annotation (Placement(transformation(extent={{-40,-40},{0,0}})));
   inner Modelica.Blocks.Noise.GlobalSeed globalSeed(useAutomaticSeed=true) annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
   Modelica.Blocks.Noise.UniformNoise uniformNoise(
     samplePeriod=samplePeriod,
     y_min=-eNoise/2,
-    y_max=eNoise/2)                               annotation (Placement(transformation(extent={{-20,10},{0,30}})));
-  Modelica.Blocks.Math.Add add annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+    y_max=eNoise/2)                               annotation (Placement(transformation(extent={{20,10},{40,30}})));
+  Modelica.Blocks.Math.Add add annotation (Placement(transformation(extent={{60,-10},{80,10}})));
+  EvaluateHallSensor evaluateHallSensor(
+    alfa=alfa,
+    beta=beta,
+    gamma=gamma) annotation (Placement(transformation(extent={{20,-30},{40,-10}})));
 equation
-  connect(add.y, e) annotation (Line(points={{61,0},{110,0}}, color={0,0,127}));
-  connect(uniformNoise.y, add.u1) annotation (Line(points={{1,20},{20,20},{20,6},{38,6}}, color={0,0,127}));
-  connect(realExpression.y, add.u2) annotation (Line(points={{2,-20},{20,-20},{20,-6},{38,-6}}, color={0,0,127}));
+  connect(add.y, e) annotation (Line(points={{81,0},{110,0}}, color={0,0,127}));
+  connect(uniformNoise.y, add.u1) annotation (Line(points={{41,20},{50,20},{50,6},{58,6}},color={0,0,127}));
+  connect(evaluateHallSensor.y, add.u2) annotation (Line(points={{41,-20},{50,-20},{50,-6},{58,-6}}, color={0,0,127}));
+  connect(d, evaluateHallSensor.u1) annotation (Line(points={{-120,0},{0,0},{0,-14},{18,-14}}, color={0,0,127}));
+  connect(i, evaluateHallSensor.u2) annotation (Line(points={{0,-120},{0,-26},{18,-26}}, color={0,0,127}));
   annotation (Documentation(info="<html>
 <p>
 Calculates the output signal of the Hall effect sensor, taking noise into account.
 </p>
-</html>"));
+</html>"), Icon(graphics={
+        Rectangle(
+          extent={{-40,80},{40,0}},
+          lineColor={0,0,0},
+          fillColor={135,135,135},
+          fillPattern=FillPattern.Sphere),
+        Line(
+          points={{-40,0},{-40,-60}},
+          color={0,0,0},
+          thickness=0.5),
+        Line(
+          points={{0,0},{0,-60}},
+          color={0,0,0},
+          thickness=0.5),
+        Line(
+          points={{40,0},{40,-60}},
+          color={0,0,0},
+          thickness=0.5)}));
 end HallSensor;

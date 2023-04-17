@@ -22,5 +22,10 @@ equation
 Calculates reference current from reference force, either using steady-state position or actual position of magnet. 
 Additionally, the maximum admissible force is calculated from the maximum admissible current.
 </p>
-</html>"));
+</html>"), Icon(graphics={Text(
+          extent={{-40,40},{40,-40}},
+          textColor={0,0,0},
+          fontName="serif",
+          textStyle={TextStyle.Italic},
+          textString="f - i")}));
 end F2i;
