@@ -19,8 +19,7 @@ model CurrentControl "Current controlled system"
             {-30,40}})));
   Control.Continuous.LimitedPI currentController(
     kp=data.kpI,
-    x0=data.v0,
-    y0=data.v0,
+    y_start=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
@@ -38,7 +37,7 @@ model CurrentControl "Current controlled system"
     Tdh=data.Tdh,
     v0=data.v0)                                         annotation (Placement(transformation(extent={{30,16},{50,36}})));
   Control.Continuous.E2d e2d(
-    T=0.5/data.fSw,
+    Td=0.5/data.fSw,
     alfa=data.alfa,
     beta=data.beta,
     gamma=data.gamma) annotation (Placement(transformation(extent={{0,-20},{-20,0}})));

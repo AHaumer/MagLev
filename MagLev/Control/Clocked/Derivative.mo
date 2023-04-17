@@ -1,35 +1,17 @@
 within MagLev.Control.Clocked;
 block Derivative "Approximated derivative block"
   extends Modelica.Clocked.RealSignals.Interfaces.PartialClockedSISO;
-  import Modelica.Blocks.Types.Init;
   parameter Real k(unit="1")=1 "Gain";
   parameter SI.Time T(min=Modelica.Constants.small) = 0.01
     "Time constants (T>0 required; T=0 is ideal derivative block)";
-  parameter Init initType=Init.NoInit
-    "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
-    annotation(Evaluate=true,
-      Dialog(group="Initialization"));
-  parameter Real x_start=0 "Initial or guess value of state"
-    annotation (Dialog(group="Initialization"));
-  parameter Real y_start=0 "Initial value of output (= state)"
-    annotation(Dialog(enable=initType == Init.InitialOutput, group=
-          "Initialization"));
-  output Real x(start=x_start) "State of block";
+  output Real x(start=0) "State of block";
 protected
   SI.Time Ts = interval(u) "Sample time";
-  discrete Real y_last;
-initial equation
-  if initType == Init.InitialState then
-    x = x_start;
-  elseif initType == Init.InitialOutput then
-    y_last = y_start;
-  end if;
 equation
   when Clock() then
     x = (previous(x) + u*Ts/T)/(1 + Ts/T);
-    y_last = k*(u - x)/T;
+    y = k*(u - x)/T;
   end when;
-  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

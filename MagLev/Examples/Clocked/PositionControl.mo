@@ -16,17 +16,13 @@ model PositionControl "Position controlled system"
         rotation=270,
         origin={60,50})));
   Control.Clocked.LimitedPI  currentController(
+    y(fixed=true, start=data.v0),
     kp=data.kpI,
-    x0=data.v0,
-    y0=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
-    yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x(start=data.v0, fixed=true))
-                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    yMin=0)          annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Switching.Converter converter(fSw=data.fSw)
       annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -40,31 +36,27 @@ model PositionControl "Position controlled system"
     useSteadyStatePosition=false,         d0=data.d0)
     annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
   Control.Clocked.LimitedPI  speedController(
+    y(fixed=true, start=data.f0),
     kp=data.kpv,
-    x0=data.f0,
-    y0=data.f0,
     Ti=data.Tiv,
     symmetricLimits=false,
     constantUpperLimit=false,
     yMax=data.fMax,
     constantLowerLimit=false,
-    yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x(start=data.f0, fixed=true))
+    yMin=0)
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Control.Clocked.FirstOrder  firstOrder(
+    y(fixed=true, start=0),
     k=1,
-    T=data.Tiv,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
+    T=data.Tiv)
+               annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Clocked.PController  positionController(                         kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
   Control.Clocked.Adda  adda(                         v0=data.v0)
                                                       annotation (Placement(transformation(extent={{30,16},{50,36}})));
   Control.Clocked.E2d  e2d(
     alfa=data.alfa,
     beta=data.beta,
-    gamma=data.gamma,
-    d0=data.d0)       annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
+    gamma=data.gamma) annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
   Components.Magnet magnet(
     m=data.m,
     d(fixed=true, start=data.d0),

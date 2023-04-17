@@ -19,16 +19,14 @@ model PositionControl "Position controlled system"
     samplePeriod=1/data.fSw,
     startTime=0.3/data.fSw,
     kp=data.kpI,
-    x0=data.v0,
-    y0=data.v0,
+    y_start=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x(start=data.v0, fixed=true))
-                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    x(fixed=true))   annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Switching.Converter converter(fSw=data.fSw)
       annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -45,8 +43,7 @@ model PositionControl "Position controlled system"
     samplePeriod=1/data.fSw,
     startTime=0.2/data.fSw,
     kp=data.kpv,
-    x0=data.f0,
-    y0=data.f0,
+    y_start=data.f0,
     Ti=data.Tiv,
     symmetricLimits=false,
     constantUpperLimit=false,
@@ -54,7 +51,7 @@ model PositionControl "Position controlled system"
     constantLowerLimit=false,
     yMin=0,
     initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x(start=data.f0, fixed=true))
+    x(fixed=true))
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Control.Discrete.FirstOrder firstOrder(
     samplePeriod=1/data.fSw,

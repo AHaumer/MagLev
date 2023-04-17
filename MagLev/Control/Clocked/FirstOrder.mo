@@ -1,28 +1,14 @@
 within MagLev.Control.Clocked;
 block FirstOrder "First order transfer function block (= 1 pole)"
-  extends Modelica.Clocked.RealSignals.Interfaces.PartialClockedSISO(y(start=y_start));
-  import Modelica.Blocks.Types.Init;
+  extends Modelica.Clocked.RealSignals.Interfaces.PartialClockedSISO(y(start=0));
   parameter Real k(unit="1")=1 "Gain";
   parameter Modelica.Units.SI.Time T(start=1) "Time Constant";
-  parameter Init initType=Init.NoInit
-    "Type of initialization (1: no init, 2: steady state, 3/4: initial output)" annotation(Evaluate=true,
-      Dialog(group="Initialization"));
-  parameter Real y_start=0 "Initial or guess value of output (= state)"
-    annotation (Dialog(group="Initialization"));
 protected
   SI.Time Ts = interval(u) "Sample time";
-  discrete Real y_last;
-initial equation
-  if initType == Init.SteadyState then
-    k*u - y = 0;
-  elseif initType == Init.InitialState or initType == Init.InitialOutput then
-    y_last = y_start;
-  end if;
 equation
   when Clock() then
-    y_last = (previous(y_last) +  k*u*Ts/T)/(1 + Ts/T);
+    y = (previous(y) +  k*u*Ts/T)/(1 + Ts/T);
   end when;
-  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

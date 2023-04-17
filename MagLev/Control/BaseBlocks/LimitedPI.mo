@@ -1,6 +1,5 @@
 within MagLev.Control.BaseBlocks;
 partial block LimitedPI "Base for limited PI-controller with anti-windup and feed-forward"
-  import Modelica.Blocks.Types.Init;
   import Modelica.Constants.inf;
   Modelica.Blocks.Interfaces.RealInput u_m "Connector of measured signal"
     annotation (Placement(transformation(
@@ -42,15 +41,7 @@ partial block LimitedPI "Base for limited PI-controller with anti-windup and fee
     annotation(Dialog(tab="Limitation", enable=not symmetricLimits));
   parameter Real yMin=-yMax "Lower limit of output"
     annotation(Dialog(tab="Limitation", enable=constantLowerLimit and not symmetricLimits));
-  parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.NoInit
-    "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
-    annotation(Evaluate=true,
-      Dialog(group="Initialization"));
-  parameter Real x0=0 "Initial or guess value of state"
-    annotation (Dialog(group="Initialization"));
-  parameter Real y0=0 "Initial value of output"
-    annotation(Dialog(enable=initType == Init.SteadyState or initType == Init.InitialOutput,
-      group="Initialization"));
+
 protected
   Modelica.Blocks.Sources.Constant zeroFF(k=0) if not useFF
     annotation (Placement(transformation(extent={{-30,-100},{-10,-80}})));

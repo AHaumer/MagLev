@@ -2,8 +2,7 @@ within MagLev.Control.Clocked;
 block E2d "Calculate position from hall sensor signal"
   extends Modelica.Clocked.ClockSignals.Interfaces.ClockedBlockIcon;
   extends MagLev.Control.BaseBlocks.E2d;
-  parameter SI.Position d0=0 "Initial position";
-  Der der1(u0=d0)                                          annotation (Placement(transformation(extent={{60,50},{80,70}})));
+  Der der1  annotation (Placement(transformation(extent={{60,50},{80,70}})));
 equation
   connect(der1.y, d_der) annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
   connect(invertHallSensor.d, der1.u) annotation (Line(points={{11,0},{40,0},{40,60},{58,60}}, color={0,0,127}));
