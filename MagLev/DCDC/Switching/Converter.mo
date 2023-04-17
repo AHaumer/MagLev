@@ -1,6 +1,7 @@
 within MagLev.DCDC.Switching;
 model Converter "Converter including measurement and basic control"
   extends MagLev.DCDC.BaseModels.BaseConverter;
+  parameter SI.Time startTime=0 "Start time";
   Switching.HBridge hBridge annotation (Placement(transformation(extent={{-10,-10},{10,10}}, rotation=0)));
   Switching.Control.Voltage2DutyCycle v2dutyCycle(
     reciprocal=false,
@@ -14,13 +15,15 @@ model Converter "Converter including measurement and basic control"
     useInternalSampleHold=false,
     useConstantDutyCycle=false,
     f=fSw,
+    startTime=startTime,
     refType=MagLev.Types.SingleReferenceType.Triangle) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={0,-50})));
   Modelica.Blocks.Sources.BooleanConstant booleanConstant(k=false)
     annotation (Placement(transformation(extent={{40,-40},{20,-20}})));
-  Modelica.Blocks.Discrete.Sampler sampler(samplePeriod=1/fSw) annotation (
+  Modelica.Blocks.Discrete.Sampler sampler(samplePeriod=1/fSw, startTime=startTime)
+                                                               annotation (
       Placement(transformation(
         extent={{-8,-8},{8,8}},
         rotation=0,
@@ -54,10 +57,10 @@ equation
           textString="DC out")}),                                Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<html>
 <p>
 Converter containing the H-bridge, the measurement and the limitation of the reference voltage. 
-Note that the delays of the reference and the measured values are modeled outside in a separate AD/DA-model.
+Note that the delays of the reference voltage and the measured values are modeled outside in a separate AD/DA-model, but the limiting battery voltage is sampled in this component synchronously.
+The synchronization of the reference triangle signal (and the sampling of battery voltage) and the time schedule of the AD/DA and the controllers is done by using the same startTime and samplePeriod.
 </p>
 </html>"));
 end Converter;

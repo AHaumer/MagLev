@@ -1,7 +1,7 @@
 within MagLev.Control.Continuous;
 block PController "Simple proportional controller"
   extends Modelica.Blocks.Interfaces.SISO;
-  parameter SI.Time Td(min=100*Modelica.Constants.eps, start=0.1) "Total dead time";
+  parameter SI.Time Tds(min=100*Modelica.Constants.eps, start=0.1) "Dead time at sample";
   parameter Real kp(unit="1")=1 "Proportional gain";
   Modelica.Blocks.Interfaces.RealInput u_m "Connector of measured signal"
     annotation (Placement(transformation(
@@ -12,7 +12,7 @@ block PController "Simple proportional controller"
   Modelica.Blocks.Math.Gain gain(k=kp) annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   Modelica.Blocks.Continuous.FirstOrder firstOrder(
     k=1,
-    T=Td/2,
+    T=Tds,
     initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
 equation
   connect(feedback.u2, u_m) annotation (Line(points={{0,-8},{0,-120}}, color={0,0,127}));

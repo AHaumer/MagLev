@@ -10,10 +10,10 @@ model SignalPWM
   parameter Real constantDutyCycle=0 "Constant duty cycle"
     annotation (Dialog(enable=useConstantDutyCycle));
   parameter SI.Frequency f=1000 "Switching frequency";
+  parameter SI.Time startTime=0 "Start time";
   parameter SingleReferenceType refType=MagLev.Types.SingleReferenceType.Sawtooth "Type of reference signal";
   parameter Boolean commonComparison=true "Common or separated comparison for fire_p and fire_n"
     annotation(choices(checkBox=true));
-  parameter SI.Time startTime=0 "Start time";
   Modelica.Blocks.Interfaces.RealInput dutyCycle if not
     useConstantDutyCycle "Duty cycle"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));

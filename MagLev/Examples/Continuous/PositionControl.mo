@@ -57,10 +57,13 @@ model PositionControl "Position controlled system"
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Continuous.Adda
-                        adda(Td=data.Td)              annotation (Placement(transformation(extent={{30,18},{50,38}})));
+                        adda(
+    Tds=data.Tds,
+    Tdh=data.Tdh,
+    v0=data.v0)                                       annotation (Placement(transformation(extent={{30,16},{50,36}})));
   Control.Continuous.E2d
                        e2d(
-    samplePeriod=1/data.fSw,
+    T=0.5/data.fSw,
     alfa=data.alfa,
     beta=data.beta,
     gamma=data.gamma) annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
@@ -72,7 +75,8 @@ model PositionControl "Position controlled system"
                                                                                 offset=data.d0)
                                                                                annotation (Placement(transformation(extent={{-170,20},{-150,40}})));
   Components.Visualization visualization annotation (Placement(transformation(extent={{10,-100},{50,-20}})));
-  Control.Continuous.PController positionController(Td=data.Td, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
+  Control.Continuous.PController positionController(Tds=data.Tds,
+                                                                kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
 equation
   connect(voltageSource.n, ground.p) annotation (Line(points={{70,60},{70,50}}, color={0,0,255}));
   connect(voltageSource.n, converter.dc_n1) annotation (Line(points={{70,60},{70,50},{74,50},{74,40}}, color={0,0,255}));
@@ -90,10 +94,10 @@ equation
     annotation (Line(points={{1,30},{28,30}}, color={0,0,127}));
   connect(adda.i, currentController.u_m) annotation (Line(points={{29,24},{10,24},{10,10},{-16,10},{-16,18}},
                                              color={0,0,127}));
-  connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{
-          2,-4}}, color={0,0,127}));
-  connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},
-          {2,-10}}, color={0,0,127}));
+  connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{2,-4}},
+                  color={0,0,127}));
+  connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},{2,-10}},
+                    color={0,0,127}));
   connect(e2d.d_der, speedController.u_m) annotation (Line(points={{-21,-4},{-76,-4},{-76,18}},
                               color={0,0,127}));
   connect(e2d.d, f2i.d) annotation (Line(points={{-21,-10},{-40,-10},{-40,

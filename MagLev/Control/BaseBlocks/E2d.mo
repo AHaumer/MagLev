@@ -1,7 +1,5 @@
 within MagLev.Control.BaseBlocks;
 partial block E2d "Calculate position from hall sensor signal"
-  parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start=0.1)
-    "Sample period of component";
 
   parameter SI.Voltage alfa=2.48 "Coefficient 1 (constant)"
     annotation(Dialog(group="Hall effect sensor"));
@@ -17,10 +15,14 @@ partial block E2d "Calculate position from hall sensor signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealOutput d_der
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=-sqrt(beta/(e - alfa - gamma*i)))
-    annotation (Placement(transformation(extent={{-20,-20},{20,20}})));
+  InvertHallSensor invertHallSensor(
+    alfa=alfa,
+    beta=beta,
+    gamma=gamma) annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 equation
-  connect(realExpression.y, d) annotation (Line(points={{22,0},{110,0}}, color={0,0,127}));
+  connect(invertHallSensor.d, d) annotation (Line(points={{11,0},{110,0}}, color={0,0,127}));
+  connect(e, invertHallSensor.e) annotation (Line(points={{-120,0},{-12,0}}, color={0,0,127}));
+  connect(invertHallSensor.i, i) annotation (Line(points={{-12,6},{-20,6},{-20,60},{-120,60}}, color={0,0,127}));
   annotation (Icon(graphics={
         Text(
           extent={{-100,42},{-60,82}},

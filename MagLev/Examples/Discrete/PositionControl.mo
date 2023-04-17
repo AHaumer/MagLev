@@ -69,9 +69,7 @@ model PositionControl "Position controlled system"
     samplePeriod=1/data.fSw,
     alfa=data.alfa,
     beta=data.beta,
-    gamma=data.gamma,
-    d(start=data.d0, fixed=false))
-                      annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
+    gamma=data.gamma) annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
   Components.Magnet magnet(
     m=data.m,
     d(fixed=true, start=data.d0),

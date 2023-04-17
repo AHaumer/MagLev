@@ -55,7 +55,11 @@ record DataZeltomStd "Data of the standard Zeltom kit"
 
   parameter SI.Frequency fSw=2500 "Switching frequency"
     annotation(Dialog(tab="Control"));
-  parameter SI.Time Td=1.5/fSw "Dead time"
+  parameter SI.Time Tds=0.5/fSw "Dead time at sample"
+    annotation(Dialog(tab="Control"));
+  parameter SI.Time Tdh=1.0/fSw "Dead time at hold"
+    annotation(Dialog(tab="Control"));
+  parameter SI.Time Td=Tds + Tdh "Dead time"
     annotation(Dialog(tab="Control"));
   parameter SI.Resistance kpI=L/(2*Td) "Proportional gain"
     annotation(Dialog(tab="Control", group="Current controller"));
