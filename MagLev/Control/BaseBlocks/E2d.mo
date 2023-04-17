@@ -15,14 +15,6 @@ partial block E2d "Calculate position from hall sensor signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealOutput d_der
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
-  InvertHallSensor invertHallSensor(
-    alfa=alfa,
-    beta=beta,
-    gamma=gamma) annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-equation
-  connect(invertHallSensor.d, d) annotation (Line(points={{11,0},{110,0}}, color={0,0,127}));
-  connect(e, invertHallSensor.e) annotation (Line(points={{-120,0},{-12,0}}, color={0,0,127}));
-  connect(invertHallSensor.i, i) annotation (Line(points={{-12,6},{-20,6},{-20,60},{-120,60}}, color={0,0,127}));
   annotation (Icon(graphics={
         Text(
           extent={{-100,42},{-60,82}},

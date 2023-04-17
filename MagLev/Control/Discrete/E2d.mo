@@ -1,14 +1,18 @@
 within MagLev.Control.Discrete;
 block E2d "Calculate position from hall sensor signal"
-  extends Modelica.Blocks.Icons.DiscreteBlock;
+  extends Modelica.Blocks.Interfaces.DiscreteBlock;
   extends MagLev.Control.BaseBlocks.E2d;
-  parameter SI.Time samplePeriod(min=100*Modelica.Constants.eps, start=0.1)
-    "Sample period of component";
-  parameter SI.Time startTime=0 "First sample time instant";
-  Der der1(samplePeriod=samplePeriod, startTime=startTime) annotation (Placement(transformation(extent={{60,50},{80,70}})));
+  parameter SI.Position d0 "Initial result of position calculation";
+  discrete Real pre_d "pre(d)";
+initial equation
+  pre_d = d0;
+  d = d0;
 equation
-  connect(der1.y, d_der) annotation (Line(points={{81,60},{110,60}}, color={0,0,127}));
-  connect(invertHallSensor.d, der1.u) annotation (Line(points={{11,0},{40,0},{40,60},{58,60}}, color={0,0,127}));
+  when sampleTrigger then
+    d = -sqrt(beta/abs(e - alfa - gamma*i));
+    pre_d = -sqrt(beta/abs(pre(e) - alfa - gamma*pre(i)));
+    d_der = (d - pre(d))/samplePeriod;
+  end when;
   annotation (                   Documentation(info="<html>
 <p>
 Calculates the position of the magnet from the output of the hall effect sensor, using the known current. 

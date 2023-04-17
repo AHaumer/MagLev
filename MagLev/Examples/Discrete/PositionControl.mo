@@ -62,12 +62,13 @@ model PositionControl "Position controlled system"
     y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Discrete.PController positionController(samplePeriod=1/data.fSw, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
   Control.Discrete.Adda adda(samplePeriod=1/data.fSw, v0=data.v0)
-                                                      annotation (Placement(transformation(extent={{30,16},{50,36}})));
+                                                      annotation (Placement(transformation(extent={{20,20},{40,40}})));
   Control.Discrete.E2d e2d(
     samplePeriod=1/data.fSw,
     alfa=data.alfa,
     beta=data.beta,
-    gamma=data.gamma) annotation (Placement(transformation(extent={{0,-20},{-20,0}})));
+    gamma=data.gamma,
+    d0=data.d0)       annotation (Placement(transformation(extent={{40,-20},{20,0}})));
   Components.Magnet magnet(
     m=data.m,
     d(fixed=true, start=data.d0),
@@ -86,29 +87,26 @@ equation
   connect(f2i.y, currentController.u) annotation (Line(points={{-29,30},{-22,30}}, color={0,0,127}));
   connect(firstOrder.y, speedController.u) annotation (Line(points={{-89,30},{-82,30}}, color={0,0,127}));
   connect(f2i.fMax, speedController.yMaxVar) annotation (Line(points={{-51,36},{-58,36}},                       color={0,0,127}));
-  connect(adda.vRef, converter.vRef) annotation (Line(points={{51,30},{68,30}}, color={0,0,127}));
+  connect(adda.vRef, converter.vRef) annotation (Line(points={{41,30},{68,30}}, color={0,0,127}));
   connect(currentController.yMaxVar, adda.vBat)
-    annotation (Line(points={{2,36},{29,36}}, color={0,0,127}));
+    annotation (Line(points={{2,36},{19,36}}, color={0,0,127}));
   connect(currentController.y, adda.v)
-    annotation (Line(points={{1,30},{28,30}}, color={0,0,127}));
-  connect(adda.i, currentController.u_m) annotation (Line(points={{29,24},{10,24},{10,10},{-16,10},{-16,18}},
+    annotation (Line(points={{1,30},{18,30}}, color={0,0,127}));
+  connect(adda.i, currentController.u_m) annotation (Line(points={{19,24},{10,24},{10,10},{-16,10},{-16,18}},
                                              color={0,0,127}));
-  connect(adda.i, e2d.i) annotation (Line(points={{29,24},{10,24},{10,-4},{2,-4}},
-                  color={0,0,127}));
-  connect(adda.e, e2d.e) annotation (Line(points={{29,18},{20,18},{20,-10},{2,-10}},
-                    color={0,0,127}));
-  connect(e2d.d_der, speedController.u_m) annotation (Line(points={{-21,-4},{-76,-4},{-76,18}},
+  connect(e2d.d_der, speedController.u_m) annotation (Line(points={{19,-4},{-76,-4},{-76,18}},
                               color={0,0,127}));
-  connect(e2d.d, f2i.d) annotation (Line(points={{-21,-10},{-40,-10},{-40,18}},
+  connect(e2d.d, f2i.d) annotation (Line(points={{19,-10},{-40,-10},{-40,18}},
                 color={0,0,127}));
-  connect(e2d.d, positionController.u_m) annotation (Line(points={{-21,-10},{-130,-10},{-130,18}},
+  connect(e2d.d, positionController.u_m) annotation (Line(points={{19,-10},{-130,-10},{-130,18}},
                                  color={0,0,127}));
-  connect(coil.e, adda.eAct) annotation (Line(points={{69,0},{60,0},{60,18},{52,18}}, color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
-  connect(converter.vBat, adda.vSrc) annotation (Line(points={{69,36},{52,36}}, color={0,0,127}));
-  connect(converter.iAct, adda.iAct) annotation (Line(points={{69,24},{52,24}}, color={0,0,127}));
+  connect(converter.vBat, adda.vSrc) annotation (Line(points={{69,36},{42,36}}, color={0,0,127}));
+  connect(converter.iAct, adda.iAct) annotation (Line(points={{69,24},{42,24}}, color={0,0,127}));
   connect(referencePosition.y, positionController.u) annotation (Line(points={{-149,30},{-142,30}}, color={0,0,127}));
   connect(f2i.fMin, speedController.yMinVar) annotation (Line(points={{-51,24},{-58,24}}, color={0,0,127}));
+  connect(converter.iAct, e2d.i) annotation (Line(points={{69,24},{50,24},{50,-4},{42,-4}}, color={0,0,127}));
+  connect(coil.e, e2d.e) annotation (Line(points={{69,0},{60,0},{60,-10},{42,-10}}, color={0,0,127}));
   annotation (experiment(
       Interval=5e-05,
       Tolerance=1e-06),

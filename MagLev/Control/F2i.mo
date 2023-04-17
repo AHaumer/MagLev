@@ -14,9 +14,12 @@ block F2i "Transform reference force to reference current"
   Modelica.Blocks.Interfaces.RealOutput fMax "Connector of Real output signal" annotation (Placement(transformation(extent={{-100,50},{-120,70}})));
   Modelica.Blocks.Interfaces.RealOutput fMin "Connector of Real output signal" annotation (Placement(transformation(extent={{-100,-70},{-120,-50}})));
 equation
-  y = u/k*(abs(if useSteadyStatePosition then d0 else d))^pd - iC;
+  //fMax and fMin are calculated immdiately after actual position d is available
   fMax = (iC + iMax)*k/(abs(if useSteadyStatePosition then d0 else d))^pd;
   fMin = iC*k/(abs(if useSteadyStatePosition then d0 else d))^pd;
+  //convert reference force (output of speed controller) to reference current continuosly
+  //i.e. refercne current is available before current controller is triggered
+  y = u/k*(abs(if useSteadyStatePosition then d0 else d))^pd - iC;
   annotation (Documentation(info="<html>
 <p>
 Calculates reference current from reference force, either using steady-state position or actual position of magnet. 

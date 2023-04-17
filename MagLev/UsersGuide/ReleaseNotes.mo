@@ -5,6 +5,7 @@ class ReleaseNotes "Release Notes"
 
 <h5>Version 1.9.0, 2023-04-17 Anton Haumer</h5>
 <ul>
+  <li>Unbundle AD/DA and e2d</li>
   <li>Implemented clocked version (in parallel to discrete triggered version)</li>
 </ul>
 
