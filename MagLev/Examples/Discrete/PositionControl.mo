@@ -64,7 +64,8 @@ model PositionControl "Position controlled system"
     initType=Modelica.Blocks.Types.Init.InitialOutput,
     y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Discrete.PController positionController(samplePeriod=1/data.fSw, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
-  Control.Discrete.Adda adda(samplePeriod=1/data.fSw) annotation (Placement(transformation(extent={{30,18},{50,38}})));
+  Control.Discrete.Adda adda(samplePeriod=1/data.fSw, v0=data.v0)
+                                                      annotation (Placement(transformation(extent={{30,16},{50,36}})));
   Control.Discrete.E2d e2d(
     samplePeriod=1/data.fSw,
     alfa=data.alfa,
