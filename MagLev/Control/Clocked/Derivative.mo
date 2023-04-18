@@ -3,7 +3,7 @@ block Derivative "Approximated derivative block"
   extends Modelica.Clocked.RealSignals.Interfaces.PartialClockedSISO;
   parameter Real k(unit="1")=1 "Gain";
   parameter SI.Time T(min=Modelica.Constants.small) = 0.01
-    "Time constants (T>0 required; T=0 is ideal derivative block)";
+    "Time constant (T>0 required; T=0 is ideal derivative block)";
   output Real x(start=0) "State of block";
 protected
   SI.Time Ts = interval(u) "Sample time";

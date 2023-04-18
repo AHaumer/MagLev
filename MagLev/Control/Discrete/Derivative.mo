@@ -1,34 +1,16 @@
 within MagLev.Control.Discrete;
 block Derivative "Approximated derivative block"
-  extends Modelica.Blocks.Interfaces.DiscreteSISO;
+  extends Modelica.Blocks.Interfaces.DiscreteSISO(y(start=0));
   import Modelica.Blocks.Types.Init;
   parameter Real k(unit="1")=1 "Gain";
   parameter SI.Time T(min=Modelica.Constants.small) = 0.01
-    "Time constants (T>0 required; T=0 is ideal derivative block)";
-  parameter Init initType=Init.NoInit
-    "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
-    annotation(Evaluate=true,
-      Dialog(group="Initialization"));
-  parameter Real x_start=0 "Initial or guess value of state"
-    annotation (Dialog(group="Initialization"));
-  parameter Real y_start=0 "Initial value of output (= state)"
-    annotation(Dialog(enable=initType == Init.InitialOutput, group=
-          "Initialization"));
-  output Real x(start=x_start) "State of block";
-protected
-  discrete Real y_last;
-initial equation
-  if initType == Init.InitialState then
-    x = x_start;
-  elseif initType == Init.InitialOutput then
-    y_last = y_start;
-  end if;
+    "Time constant (T>0 required; T=0 is ideal derivative block)";
+  discrete output Real x(start=0) "State of block";
 equation
   when sampleTrigger then
     x = (pre(x) + u*samplePeriod/T)/(1 + samplePeriod/T);
-    y_last = k*(u - x)/T;
+    y = k*(u - x)/T;
   end when;
-  y = y_last;
   annotation (
     Documentation(info="<html>
 <p>

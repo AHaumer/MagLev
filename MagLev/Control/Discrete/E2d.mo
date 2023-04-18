@@ -1,12 +1,9 @@
 within MagLev.Control.Discrete;
 block E2d "Calculate position from hall sensor signal"
   extends Modelica.Blocks.Interfaces.DiscreteBlock;
-  extends MagLev.Control.BaseBlocks.E2d;
-  parameter SI.Position d0 "Initial result of position calculation";
+  extends MagLev.Control.BaseBlocks.E2d(d(start=0));
+protected
   discrete Real pre_d "pre(d)";
-initial equation
-  pre_d = d0;
-  d = d0;
 equation
   when sampleTrigger then
     d = -sqrt(beta/abs(e - alfa - gamma*i));

@@ -18,14 +18,13 @@ model PositionControl "Position controlled system"
   Control.Discrete.LimitedPI currentController(
     samplePeriod=1/data.fSw,
     startTime=0.3/data.fSw,
+    y(fixed=true, start=data.v0),
     kp=data.kpI,
-    y_start=data.v0,
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
     yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
     x(fixed=true))   annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Switching.Converter converter(fSw=data.fSw)
       annotation (Placement(transformation(
@@ -42,24 +41,23 @@ model PositionControl "Position controlled system"
   Control.Discrete.LimitedPI speedController(
     samplePeriod=1/data.fSw,
     startTime=0.2/data.fSw,
+    y(fixed=true, start=data.f0),
     kp=data.kpv,
-    y_start=data.f0,
     Ti=data.Tiv,
     symmetricLimits=false,
     constantUpperLimit=false,
     yMax=data.fMax,
     constantLowerLimit=false,
     yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    x(fixed=true))
+    x(fixed=true, start=0))
     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
   Control.Discrete.FirstOrder firstOrder(
     samplePeriod=1/data.fSw,
     startTime=0.1/data.fSw,
+    y(fixed=true, start=0),
     k=1,
-    T=data.Tiv,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    y_start=0) annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
+    T=data.Tiv)
+               annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Discrete.PController positionController(samplePeriod=1/data.fSw, kp=data.ktuneP*data.kpP) annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
   Control.Discrete.Adda adda(samplePeriod=1/data.fSw, v0=data.v0)
                                                       annotation (Placement(transformation(extent={{20,20},{40,40}})));
@@ -68,7 +66,8 @@ model PositionControl "Position controlled system"
     alfa=data.alfa,
     beta=data.beta,
     gamma=data.gamma,
-    d0=data.d0)       annotation (Placement(transformation(extent={{40,-20},{20,0}})));
+    d(start=data.d0, fixed=true))
+                      annotation (Placement(transformation(extent={{40,-20},{20,0}})));
   Components.Magnet magnet(
     m=data.m,
     d(fixed=true, start=data.d0),
