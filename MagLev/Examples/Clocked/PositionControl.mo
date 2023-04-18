@@ -117,7 +117,7 @@ equation
       Interval=5e-05,
       Tolerance=1e-06),
     Diagram(coordinateSystem(extent={{-180,-100},{100,100}}), graphics={Rectangle(
-          extent={{-176,48},{6,-24}},
+          extent={{-176,48},{30,-36}},
           lineColor={28,108,200},
           fillColor={215,215,215},
           fillPattern=FillPattern.Solid), Rectangle(
