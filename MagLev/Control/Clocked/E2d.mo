@@ -13,8 +13,7 @@ block E2d "Calculate position from hall sensor signal"
     beta=beta,
     gamma=gamma) annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
   Modelica.Clocked.RealSignals.NonPeriodic.UnitDelay unitDelay_i(y_start=i0) annotation (Placement(transformation(extent={{-52,70},{-32,90}})));
-  Modelica.Clocked.RealSignals.NonPeriodic.UnitDelay unitDelay2(y_start=e0)
-                                                                annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
+  Modelica.Clocked.RealSignals.NonPeriodic.UnitDelay unitDelay_e(y_start=e0) annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
   InvertHallSensor invertHallSensor_pre(
     alfa=alfa,
     beta=beta,
@@ -44,9 +43,9 @@ equation
   connect(sample_e.y, invertHallSensor.e) annotation (Line(points={{-49,0},{-12,0}}, color={0,0,127}));
   connect(sample_i.y, invertHallSensor.i) annotation (Line(points={{-69,60},{0,60},{0,12}}, color={0,0,127}));
   connect(invertHallSensor.d, d) annotation (Line(points={{11,0},{110,0}}, color={0,0,127}));
-  connect(sample_e.y, unitDelay2.u) annotation (Line(points={{-49,0},{-40,0},{-40,40},{-32,40}}, color={0,0,127}));
+  connect(sample_e.y, unitDelay_e.u) annotation (Line(points={{-49,0},{-40,0},{-40,40},{-32,40}}, color={0,0,127}));
   connect(sample_i.y, unitDelay_i.u) annotation (Line(points={{-69,60},{-60,60},{-60,80},{-54,80}}, color={0,0,127}));
-  connect(unitDelay2.y, invertHallSensor_pre.e) annotation (Line(points={{-9,40},{8,40}}, color={0,0,127}));
+  connect(unitDelay_e.y, invertHallSensor_pre.e) annotation (Line(points={{-9,40},{8,40}}, color={0,0,127}));
   connect(unitDelay_i.y, invertHallSensor_pre.i) annotation (Line(points={{-31,80},{20,80},{20,52}}, color={0,0,127}));
   connect(invertHallSensor_pre.d, feedback.u2) annotation (Line(points={{31,40},{42,40}}, color={0,0,127}));
   connect(invertHallSensor.d, feedback.u1) annotation (Line(points={{11,0},{50,0},{50,32}}, color={0,0,127}));
