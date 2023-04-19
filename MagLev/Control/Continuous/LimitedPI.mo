@@ -1,32 +1,14 @@
 within MagLev.Control.Continuous;
 block LimitedPI "Limited PI-controller with anti-windup and feed-forward"
-  extends Modelica.Blocks.Interfaces.SISO(y(start=y_start));
+  extends Modelica.Blocks.Interfaces.SISO(y(start=0));
   extends BaseBlocks.LimitedPI;
-  import Modelica.Blocks.Types.Init;
   import MagLev.Types.AntiWindup;
   import Modelica.Constants.small;
-  parameter Modelica.Blocks.Types.Init initType=Modelica.Blocks.Types.Init.NoInit
-    "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)"
-    annotation(Evaluate=true,
-      Dialog(group="Initialization"));
-  parameter Real x_start=0 "Initial or guess value of state"
-    annotation (Dialog(group="Initialization"));
-  parameter Real y_start=0 "Initial value of output"
-    annotation(Dialog(enable=initType == Init.SteadyState or initType == Init.InitialOutput,
-      group="Initialization"));
   output Real e "control error";
-  output Real x "integrator state";
+  output Real x(start=0) "integrator state";
 protected
-  Real preview(start=y_start);
-  Real cropped(start=0);
-initial equation
-  if initType==Init.SteadyState then
-    der(x) = 0;
-  elseif initType==Init.InitialState then
-    x = x_start;
-  else //initType==Init.InitialOutput
-    y = y_start;
-  end if;
+  Real preview;
+  Real cropped;
 equation
   e = u - u_m;
   der(x) =

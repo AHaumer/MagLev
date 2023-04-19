@@ -17,30 +17,33 @@ model CurrentControl "Current controlled system"
         origin={60,50})));
   Modelica.Blocks.Sources.Constant iRef(k=data.i0)  annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
   Control.Continuous.LimitedPI currentController(
+    y(start=data.v0, fixed=false),
     kp=data.kpI,
-    y_start=data.v0,
+    x(fixed=true, start=data.v0/data.kpI),
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
-    yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput)
-                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    yMin=0)          annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Averaging.Converter converter(fSw=data.fSw)                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,30})));
   parameter ParameterRecords.DataZeltomStd data(dNoise=0) annotation (Placement(transformation(extent={{10,60},{30,80}})));
   Control.Continuous.Adda adda(
+    vBat0=data.Vsrc,
+    vRef0=data.v0,
+    i0=data.i0,
     Tds=data.Tds,
-    Tdh=data.Tdh,
-    v0=data.v0)                                         annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    Tdh=data.Tdh)                                       annotation (Placement(transformation(extent={{20,20},{40,40}})));
   Control.Continuous.E2d e2d(
+    i0=data.i0,
+    e0=data.e0,
     Tds=data.Tds,
     Td=0.5/data.fSw,
     alfa=data.alfa,
     beta=data.beta,
-    gamma=data.gamma) annotation (Placement(transformation(extent={{40,-20},{20,0}})));
+    gamma=data.gamma) annotation (Placement(transformation(extent={{40,-18},{20,2}})));
   Components.Magnet magnet(
     m=data.m,
     d(fixed=true, start=data.d0),
@@ -67,8 +70,8 @@ equation
   connect(adda.i, currentController.u_m) annotation (Line(points={{19,24},{10,24},{10,10},{-16,10},{-16,18}},
                                              color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
-  connect(converter.iAct, e2d.i) annotation (Line(points={{69,24},{50,24},{50,-4},{42,-4}}, color={0,0,127}));
-  connect(coil.e, e2d.e) annotation (Line(points={{69,0},{60,0},{60,-10},{42,-10}}, color={0,0,127}));
+  connect(converter.iAct, e2d.i) annotation (Line(points={{69,24},{50,24},{50,-2},{42,-2}}, color={0,0,127}));
+  connect(coil.e, e2d.e) annotation (Line(points={{69,0},{60,0},{60,-8},{42,-8}},   color={0,0,127}));
   annotation (experiment(
       StopTime=0.1,
       Interval=5e-05,

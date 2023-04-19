@@ -4,7 +4,7 @@ package MagLev "MagneticLevitation"
 
   annotation (preferredView="info",
     version="1.9.0",
-    versionDate="2023-04-18",
+    versionDate="2023-04-19",
     uses(Modelica(version="4.0.0")),
     Documentation(info="<html>
 <p>

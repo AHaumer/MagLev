@@ -18,15 +18,14 @@ model SpeedControl "Speed controlled system"
   Modelica.Blocks.Sources.Constant vRef(k=0)        annotation (Placement(transformation(extent={{-140,20},
             {-120,40}})));
   Control.Continuous.LimitedPI currentController(
+    y(fixed=false, start=data.v0),
     kp=data.kpI,
-    y_start=data.v0,
+    x(fixed=true, start=data.v0/data.kpI),
     Ti=data.TiI,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.Vsrc,
-    yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput)
-                     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+    yMin=0)          annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Averaging.Converter converter(fSw=data.fSw)                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -39,26 +38,29 @@ model SpeedControl "Speed controlled system"
     useSteadyStatePosition=false,         d0=data.d0)
     annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
   Control.Continuous.LimitedPI speedController(
+    y(fixed=false, start=data.f0),
     kp=data.kpv,
-    y_start=data.f0,
+    x(fixed=true, start=data.f0/data.kpv),
     Ti=data.Tiv,
     constantUpperLimit=false,
     symmetricLimits=false,
     yMax=data.fMax,
     constantLowerLimit=false,
-    yMin=0,
-    initType=Modelica.Blocks.Types.Init.InitialOutput)
-                     annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder(
+    yMin=0)          annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+  Control.Continuous.FirstOrder         firstOrder(
+    y(fixed=true, start=0),
     k=1,
-    T=data.Tiv,                                    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    y_start=0)
+    T=data.Tiv)
     annotation (Placement(transformation(extent={{-110,20},{-90,40}})));
   Control.Continuous.Adda adda(
+    vBat0=data.Vsrc,
+    vRef0=data.v0,
+    i0=data.i0,
     Tds=data.Tds,
-    Tdh=data.Tdh,
-    v0=data.v0)                                         annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    Tdh=data.Tdh)                                       annotation (Placement(transformation(extent={{20,20},{40,40}})));
   Control.Continuous.E2d e2d(
+    i0=data.i0,
+    e0=data.e0,
     Tds=data.Tds,
     Td=0.5/data.fSw,
     alfa=data.alfa,

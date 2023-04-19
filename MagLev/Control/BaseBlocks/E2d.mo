@@ -1,6 +1,7 @@
 within MagLev.Control.BaseBlocks;
 partial block E2d "Calculate position from hall sensor signal"
-
+  parameter SI.Current i0 "Initially measured coil current";
+  parameter SI.Voltage e0 "Initial Hall sensor signal";
   parameter SI.Voltage alfa=2.48 "Coefficient 1 (constant)"
     annotation(Dialog(group="Hall effect sensor"));
   parameter Real beta(unit="V.m2")=2.92E-4 "Coefficient 2  (distance)"

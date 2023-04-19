@@ -1,9 +1,9 @@
 within MagLev.Control.Continuous;
 block E2d "Calculate position from hall sensor signal"
   extends Modelica.Blocks.Icons.Block;
-  extends MagLev.Control.BaseBlocks.E2d;
   parameter SI.Time Tds(min=100*Modelica.Constants.eps, start=0.1) "Dead time at sample";
   parameter SI.Time Td(min=Modelica.Constants.small) "Derivative time constant > 0";
+  extends MagLev.Control.BaseBlocks.E2d;
   Modelica.Blocks.Continuous.Derivative dt1(
     k=1,
     T=Td,
@@ -15,11 +15,13 @@ block E2d "Calculate position from hall sensor signal"
   Modelica.Blocks.Continuous.FirstOrder sample1(
     k=1,
     T=Tds,
-    initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
+    initType=Modelica.Blocks.Types.Init.InitialOutput,
+    y_start=i0)                                      annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
   Modelica.Blocks.Continuous.FirstOrder sample2(
     k=1,
     T=Tds,
-    initType=Modelica.Blocks.Types.Init.SteadyState) annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+    initType=Modelica.Blocks.Types.Init.InitialOutput,
+    y_start=e0)                                      annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
 equation
   connect(dt1.y, d_der) annotation (Line(points={{81,60},{92,60},{92,60},{110,60}}, color={0,0,127}));
   connect(invertHallSensor.d, d) annotation (Line(points={{11,0},{110,0}}, color={0,0,127}));
