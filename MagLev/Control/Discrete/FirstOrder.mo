@@ -1,7 +1,6 @@
 within MagLev.Control.Discrete;
 block FirstOrder "First order transfer function block (= 1 pole)"
   extends Modelica.Blocks.Interfaces.DiscreteSISO(y(start=0));
-  import Modelica.Blocks.Types.Init;
   parameter Real k(unit="1")=1 "Gain";
   parameter Modelica.Units.SI.Time T(start=1) "Time Constant";
 equation
