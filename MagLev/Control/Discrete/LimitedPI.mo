@@ -15,7 +15,9 @@ algorithm
     e := u - u_m;
     preview := kp*e + kp*(pre(x) + samplePeriod/Ti*e) + kFF*ffInternal;
     cropped := preview - min(max(preview, yMin), yMax);
-    x := pre(x) + samplePeriod/Ti*(if antiWindup == AntiWindup.BackCalc then (e - cropped/kp) else (if cropped > small then 0 else e));
+    x := pre(x) + samplePeriod/Ti*
+        (if antiWindup == AntiWindup.BackCalc then (e - cropped/kp)
+        else (if cropped > small then 0 else e));
     y := min(max(kp*e + kp*x + kFF*ffInternal, yMin), yMax);
   end when;
   annotation (
