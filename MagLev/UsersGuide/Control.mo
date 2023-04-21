@@ -3,20 +3,6 @@ class Control "Control of the system"
   extends Modelica.Icons.Information;
   annotation (preferredView="info",Documentation(info="<html>
 <p>
-The system consists of the following components:
-</p>
-<ul>
-<li>The coil: v = R*i + L*di/dt</li>
-<li>The magnetic force on the permanent magnet: f = k*(iC + i)/abs(d)<sup>pd</sup><br>
-    iC describes the force between magnet and iron core without coil current.</li>
-<li>The output voltage of the hall effect sensor: e = alfa + beta/d<sup>2</sup> + gamma*i</li>
-<li>The equation of motion of the magnet: f - m*g = m*dv/dt</li>
-</ul>
-<p>
-It can be assumed that some parts of the equations as well as the coefficients were obtained by Zeltom by performing measurements.
-</p>
-<p>
-Note that the axis of motion is vertical in the middle of the coil, directing upwards.
 The system is controlled by cascaded control:
 </p>
 <ul>
@@ -27,22 +13,27 @@ The system is controlled by cascaded control:
 <p>
 Note that there are other solutions for the control problem. 
 However, cascaded control has proven to provide a simple and stable solution for teaching. 
-Note that high switching frequency gives quicker control but requires tuning of the position controller. 
-Furthermore, high switching frequency increases noise on the magnet's velocity due to numeric differentiation.
 </p>
 <p>
 Note that it is necessary to calculate the magnet's position from the output of the hall effect sensor, correcting the influence of the (known) current.
 Additionally it is necessary to calculate the magnet's velocity (some sort of observer), 
-and to calculate the reference current from reference force utilizing actual position.
+and to calculate the reference current from reference force utilizing actual position 
+as well as the force limits depending on actual position of the magnet for the speed controller.
 </p>
 <h4>Discrete control</h4>
 <p>
-It is important that all control blocks are executed within the same time schedule, i.e. with the same samplePeriod, and in the corrected sequence:
+As long as the samplePeriod of the discrete control is small compared to the time constants of the system, 
+and the delay caused by the time discrete AD/DA (sample and hold) are taken into account, 
+the time discrete controllers can be implemented and parameterized exactly like time continuous controllers.
+</p>
+<p>
+It is important that all control blocks are executed within the same time schedule, i.e. with the same samplePeriod, and in the correct sequence:
 </p>
 <ol>
-<li>AD/DA</li>
-<li>Position controller</li>
-<li>Speed controller</li>
+<li>AD/DA delivers measured values to the controllers and holds the output of the current controller until the next communication time instant.<br>
+    PWM of the DC/DC-converter is synchronized with the AD/DA, i.e. starts at the same time instants.</li>
+<li>Position controller delivers reference speed</li>
+<li>Speed controller delivers reference force resp. current</li>
 <li>Current controller</li>
 </ol>
 <p>
@@ -53,7 +44,11 @@ Two versions are implemented:
 <li>Clocked: the control tasks use the same <b>Clock</b> and rely that the correct sequence is determined by the causality of the signals.</li>
 </ul>
 <p>
-Note that the synchronization of the control tasks with the pwm of the DC/DC-converter is managed by useing the same samplePeriod (and the correct startTime).
+In both versions usage of algorithm keeps the sequence of commands in the desired order withon one block. 
+The tool is supposed to sort the algorithm sections of the blocks according to the causiality of the signals.
+</p>
+<p>
+Note that the synchronization of the control tasks with the pwm of the DC/DC-converter is managed by using the same samplePeriod (and the correct startTime).
 </p>
 </html>"));
 end Control;
