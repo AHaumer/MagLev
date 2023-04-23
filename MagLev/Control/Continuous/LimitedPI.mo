@@ -4,19 +4,20 @@ block LimitedPI "Limited PI-controller with anti-windup and feed-forward"
   extends BaseBlocks.LimitedPI;
   import MagLev.Types.AntiWindup;
   import Modelica.Constants.small;
-  output Real e "control error";
   output Real x(start=0) "integrator state";
 protected
-  Real preview;
-  Real cropped;
+  Real e "Control error";
+  Real predict "Prediction of ouput without limitation";
+  Real cropped "Cropped part of output";
+  // time-continuois version requires iteration (algebraic loop with cropped)
 equation
   e = u - u_m;
   der(x) =
     if antiWindup==AntiWindup.BackCalc then (e - cropped/kp)
     else (if cropped>small then 0 else e)/Ti;
-  preview =kp*e + kp*x + kFF*ffInternal;
-  y = min(max(preview, yMinInt), yMaxInt);
-  cropped = preview - y;
+  predict =kp*e + kp*x + kFF*ffInternal;
+  y = min(max(predict, yMinInt), yMaxInt);
+  cropped = predict - y;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
 <p>

@@ -21,6 +21,7 @@ protected
   Real predict "Prediction of ouput without limitation";
   Real cropped "Cropped part of output";
 algorithm
+  // avoid an algebraic loop / iteration for code on embedded controller
   e := u - u_m;
   predict := kp*e + kp*(pre_x + Ts/Ti*e) + kFF*ff;
   cropped := predict - min(max(predict, yMin), yMax);
