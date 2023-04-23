@@ -3,9 +3,11 @@ block FirstOrder "First order transfer function block (= 1 pole)"
   extends Modelica.Blocks.Interfaces.DiscreteSISO(y(start=0));
   parameter Real k(unit="1")=1 "Gain";
   parameter Modelica.Units.SI.Time T(start=1) "Time Constant";
-algorithm
+protected
+  parameter SI.Time Ts=samplePeriod "Sample period";
+equation
   when sampleTrigger then
-    y := (pre(y) + k*u*samplePeriod/T)/(1 + samplePeriod/T);
+    y = (pre(y) + k*u*Ts/T)/(1 + Ts/T);
   end when;
   annotation (
     Documentation(info="<html>

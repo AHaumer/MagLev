@@ -3,6 +3,11 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 2.0.1, 2023-04-23 Anton Haumer</h5>
+<ul>
+  <li>Time discrete triggered and clocked PI controller algorithm can be outsourced to common function piStep.</li>
+</ul>
+
 <h5>Version 2.0.0, 2023-04-21 Anton Haumer</h5>
 <ul>
   <li>Time discrete triggered and clocked version deliver same results.</li>
