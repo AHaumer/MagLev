@@ -109,7 +109,10 @@ equation
       StopTime=0.1,
       Interval=5e-05,
       Tolerance=1e-06),
-    Diagram(coordinateSystem(extent={{-180,-100},{100,100}})),
+    Diagram(coordinateSystem(extent={{-180,-100},{100,100}}), graphics={Text(
+          extent={{10,-40},{90,-50}},
+          textColor={28,108,200},
+          textString="instable equilibrium")}),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})),
     Documentation(info="<html>
 <p>

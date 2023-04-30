@@ -1,5 +1,5 @@
 within MagLev.Examples.Continuous;
-model CurrentControl "Current controlled system"
+model VoltageFed "System fed by constant voltage"
   extends Modelica.Icons.Example;
   Components.Coil
            coil(
@@ -15,16 +15,7 @@ model CurrentControl "Current controlled system"
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={60,50})));
-  Modelica.Blocks.Sources.Constant iRef(k=data.i0)  annotation (Placement(transformation(extent={{-50,20},{-30,40}})));
-  Control.Continuous.LimitedPI currentController(
-    y(start=data.v0, fixed=false),
-    kp=data.kpI,
-    x(fixed=true, start=data.v0/data.kpI),
-    Ti=data.TiI,
-    constantUpperLimit=false,
-    symmetricLimits=false,
-    yMax=data.Vsrc,
-    yMin=0)          annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+  Modelica.Blocks.Sources.Constant vRef(k=data.v0)  annotation (Placement(transformation(extent={{-20,20},{0,40}})));
   DCDC.Averaging.Converter converter(fSw=data.fSw)                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
@@ -56,22 +47,16 @@ equation
                                     color={0,0,255}));
   connect(converter.dc_n2, coil.pin_n) annotation (Line(points={{74,20},{74,10}}, color={0,0,255}));
   connect(converter.dc_p2, coil.pin_p) annotation (Line(points={{86,20},{86,10}}, color={0,0,255}));
-  connect(iRef.y, currentController.u) annotation (Line(points={{-29,30},{-22,30}}, color={0,0,127}));
   connect(adda.vSrc, converter.vBat)
     annotation (Line(points={{42,36},{69,36}}, color={0,0,127}));
   connect(adda.vRef, converter.vRef)
     annotation (Line(points={{41,30},{68,30}}, color={0,0,127}));
   connect(adda.iAct, converter.iAct)
     annotation (Line(points={{42,24},{69,24}}, color={0,0,127}));
-  connect(currentController.yMaxVar, adda.vBat)
-    annotation (Line(points={{2,36},{19,36}}, color={0,0,127}));
-  connect(currentController.y, adda.v)
-    annotation (Line(points={{1,30},{18,30}}, color={0,0,127}));
-  connect(adda.i, currentController.u_m) annotation (Line(points={{19,24},{10,24},{10,10},{-16,10},{-16,18}},
-                                             color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
   connect(converter.iAct, e2d.i) annotation (Line(points={{69,24},{50,24},{50,-4},{42,-4}}, color={0,0,127}));
   connect(coil.e, e2d.e) annotation (Line(points={{69,0},{60,0},{60,-10},{42,-10}}, color={0,0,127}));
+  connect(vRef.y, adda.v) annotation (Line(points={{1,30},{18,30}}, color={0,0,127}));
   annotation (experiment(
       StopTime=0.1,
       Interval=5e-05,
@@ -87,4 +72,4 @@ Current controlled, i.e. prescribed force:
 Note that the system is only stable under perfect conditions, initialized in an equilibrium.
 </p>
 </html>"));
-end CurrentControl;
+end VoltageFed;
