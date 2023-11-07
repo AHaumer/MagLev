@@ -7,7 +7,7 @@ class ReleaseNotes "Release Notes"
 <ul>
   <li>Block e2d (continuous, discrete and cloecked) relies on current triggered by Block adda. 
       Only the Hall sensor signal is triggered in this block.</li>
-  <li>Implemented the initial condition for the magnet in the FMUs.</li>
+  <li>Implemented the initial condition for position and velocity the magnet in the FMUs.</li>
 </ul>
 
 

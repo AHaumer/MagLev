@@ -1,7 +1,7 @@
 within MagLev.FMUs;
 model SwitchingMagLev "System with switching DC/DC"
   extends Modelica.Blocks.Icons.DiscreteBlock;
-  parameter SI.Position d0=data.d0 "Initial position of magnet below coil";
+  parameter SI.Position d0=0 "Initial position of magnet below coil = data.d0";
   parameter SI.Velocity d_der0=0 "Initial velocity of magnet";
   Components.Coil
            coil(
