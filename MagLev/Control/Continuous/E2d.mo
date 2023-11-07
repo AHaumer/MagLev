@@ -12,11 +12,6 @@ block E2d "Calculate position from hall sensor signal"
     alfa=alfa,
     beta=beta,
     gamma=gamma)                    annotation (Placement(transformation(extent={{-10,10},{10,-10}})));
-  Modelica.Blocks.Continuous.FirstOrder sample1(
-    k=1,
-    T=Tds,
-    initType=Modelica.Blocks.Types.Init.InitialOutput,
-    y_start=i0)                                      annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
   Modelica.Blocks.Continuous.FirstOrder sample2(
     k=1,
     T=Tds,
@@ -27,9 +22,9 @@ equation
   connect(invertHallSensor.d, d) annotation (Line(points={{11,0},{110,0}}, color={0,0,127}));
   connect(invertHallSensor.d, dt1.u) annotation (Line(points={{11,0},{40,0},{40,60},{58,60}}, color={0,0,127}));
   connect(e, sample2.u) annotation (Line(points={{-120,0},{-82,0}}, color={0,0,127}));
-  connect(i, sample1.u) annotation (Line(points={{-120,60},{-82,60}}, color={0,0,127}));
   connect(sample2.y, invertHallSensor.e) annotation (Line(points={{-59,0},{-12,0}}, color={0,0,127}));
-  connect(sample1.y, invertHallSensor.i) annotation (Line(points={{-59,60},{0,60},{0,12}}, color={0,0,127}));
+  connect(i, invertHallSensor.i)
+    annotation (Line(points={{-120,60},{0,60},{0,12}}, color={0,0,127}));
   annotation (                   Documentation(info="<html>
 <p>
 Calculates the position of the magnet from the output of the hall effect sensor, using the known current. 

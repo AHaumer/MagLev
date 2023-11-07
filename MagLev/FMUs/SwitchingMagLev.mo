@@ -1,6 +1,8 @@
 within MagLev.FMUs;
 model SwitchingMagLev "System with switching DC/DC"
   extends Modelica.Blocks.Icons.DiscreteBlock;
+  parameter SI.Position d0=data.d0 "Initial position of magnet below coil";
+  parameter SI.Velocity d_der0=0 "Initial velocity of magnet";
   Components.Coil
            coil(
     data=data,
@@ -21,8 +23,9 @@ model SwitchingMagLev "System with switching DC/DC"
   parameter ParameterRecords.DataZeltomStd data annotation (Placement(transformation(extent={{-10,40},{10,60}})));
   Components.Magnet magnet(
     m=data.m,
-    d(fixed=true, start=data.d0),
-    d_der(fixed=true)) annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
+    d(fixed=true, start=d0),
+    d_der(fixed=true, start=d_der0))
+                       annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
   Modelica.Blocks.Interfaces.RealInput vRef annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput vBat annotation (Placement(transformation(extent={{100,50},{120,70}})));
   Modelica.Blocks.Interfaces.RealOutput iAct annotation (Placement(transformation(extent={{100,-10},{120,10}})));

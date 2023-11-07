@@ -103,8 +103,9 @@ equation
                 color={0,0,127}));
   connect(coil.flange, magnet.flange) annotation (Line(points={{80,-10},{80,-20}}, color={0,127,0}));
   connect(f2i.fMin, speedController.yMinVar) annotation (Line(points={{-51,24},{-54.5,24},{-54.5,24},{-58,24}}, color={0,0,127}));
-  connect(converter.iAct, e2d.i) annotation (Line(points={{69,24},{50,24},{50,-4},{42,-4}}, color={0,0,127}));
   connect(coil.e, e2d.e) annotation (Line(points={{69,0},{60,0},{60,-10},{42,-10}}, color={0,0,127}));
+  connect(adda.i, e2d.i) annotation (Line(points={{19,24},{10,24},{10,10},{50,
+          10},{50,-4},{42,-4}}, color={0,0,127}));
   annotation (experiment(
       StopTime=0.1,
       Interval=5e-05,
