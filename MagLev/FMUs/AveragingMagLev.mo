@@ -1,8 +1,12 @@
 within MagLev.FMUs;
 model AveragingMagLev "System with averaging DC/DC"
   extends Modelica.Blocks.Icons.Block;
-  parameter SI.Position d0=0 "Initial position of magnet below coil = data.d0";
-  parameter SI.Velocity d_der0=0 "Initial velocity of magnet";
+  //Initialization of magnet
+  parameter SI.Position d0=0 "Initial position of magnet below coil (steady state = data.d0)";
+  parameter SI.Velocity d_der0=0 "Initial velocity of magnet (steady state = 0)";
+  //Alias-Variables
+  SI.Position d=magnet.d "Position of magnet below coil";
+  SI.Velocity d_der=magnet.d_der "Velocity of magnet";
   Components.Coil
            coil(
     data=data,

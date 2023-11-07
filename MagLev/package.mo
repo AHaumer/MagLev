@@ -3,7 +3,7 @@ package MagLev "MagneticLevitation"
   import Modelica.Units.SI;
 
   annotation (preferredView="info",
-    version="2.1.0",
+    version="2.2.0",
     versionDate="2023-11-07",
     uses(Modelica(version="4.0.0")),
     Documentation(info="<html>

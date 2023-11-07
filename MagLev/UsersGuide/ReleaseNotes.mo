@@ -3,13 +3,17 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 2.2.0, 2023-11-07 Anton Haumer</h5>
+<ul>
+  <li>Improved FMUs: initialization and alias variables for position and velocity of magnet</li>
+</ul>
+
 <h5>Version 2.1.0, 2023-11-07 Anton Haumer</h5>
 <ul>
   <li>Block e2d (continuous, discrete and cloecked) relies on current triggered by Block adda. 
       Only the Hall sensor signal is triggered in this block.</li>
   <li>Implemented the initial condition for position and velocity the magnet in the FMUs.</li>
 </ul>
-
 
 <h5>Version 2.0.1, 2023-04-23 Anton Haumer</h5>
 <ul>
