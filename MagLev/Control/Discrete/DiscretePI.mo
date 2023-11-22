@@ -21,7 +21,9 @@ block DiscretePI
   Modelica.Blocks.Math.Add3 add3_1(
     k1=kp,
     k2=kp,
-    k3=kFF) annotation (Placement(transformation(extent={{10,-10},{30,10}})));
+    k3=kFF) annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+  Modelica.Blocks.Interfaces.RealOutput x "Connector of Real output signal"
+    annotation (Placement(transformation(extent={{100,50},{120,70}})));
 protected
   parameter SI.Time Ts=samplePeriod "Sample period";
 equation
@@ -34,13 +36,15 @@ equation
   connect(pre_x, add1.u2) annotation (Line(points={{-120,-60},{-40,-60},{-40,-6},
           {-32,-6}}, color={0,0,127}));
   connect(feedForward, add3_1.u3)
-    annotation (Line(points={{0,-120},{0,-8},{8,-8}}, color={0,0,127}));
+    annotation (Line(points={{0,-120},{0,-8},{18,-8}},color={0,0,127}));
   connect(add1.y, add3_1.u2)
-    annotation (Line(points={{-9,0},{8,0}}, color={0,0,127}));
+    annotation (Line(points={{-9,0},{18,0}},color={0,0,127}));
   connect(u, add3_1.u1) annotation (Line(points={{-120,0},{-60,0},{-60,20},{0,
-          20},{0,8},{8,8}}, color={0,0,127}));
+          20},{0,8},{18,8}},color={0,0,127}));
   connect(add3_1.y, y)
-    annotation (Line(points={{31,0},{110,0}}, color={0,0,127}));
+    annotation (Line(points={{41,0},{110,0}}, color={0,0,127}));
+  connect(add1.y, x) annotation (Line(points={{-9,0},{10,0},{10,60},{110,60}},
+        color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>

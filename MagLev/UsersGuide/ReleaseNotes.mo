@@ -3,6 +3,11 @@ class ReleaseNotes "Release Notes"
   extends Modelica.Icons.ReleaseNotes;
   annotation (preferredView="info",Documentation(info="<html>
 
+<h5>Version 2.3.0, 2023-11-22 Anton Haumer</h5>
+<ul>
+  <li>Implemented discrete LimPI with blocks (instead of equations) with Anti-Windup = BackCalc.</li>
+</ul>
+
 <h5>Version 2.2.0, 2023-11-07 Anton Haumer</h5>
 <ul>
   <li>Improved FMUs: initialization and alias variables for position and velocity of magnet</li>

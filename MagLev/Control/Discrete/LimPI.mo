@@ -88,8 +88,6 @@ equation
                                                      color={0,0,127}));
   connect(yMaxInt, variableLimiter1.limit1) annotation (Line(points={{90,60},{64,
           60},{64,-36},{14,-36},{14,-42},{18,-42}}, color={0,0,127}));
-  connect(discretePI1.y, unitDelay.u) annotation (Line(points={{1,-50},{10,-50},
-          {10,-20},{2,-20}}, color={0,0,127}));
   connect(unitDelay.y, discretePI.pre_x) annotation (Line(points={{-21,-20},{-26,
           -20},{-26,44},{-22,44}}, color={0,0,127}));
   connect(unitDelay.y, discretePI1.pre_x) annotation (Line(points={{-21,-20},{-26,
@@ -100,6 +98,8 @@ equation
     annotation (Line(points={{41,-50},{50,-50},{50,-32}}, color={0,0,127}));
   connect(zeroOrderHold1.y, y)
     annotation (Line(points={{50,-9},{50,0},{110,0}}, color={0,0,127}));
+  connect(discretePI1.x, unitDelay.u) annotation (Line(points={{1,-44},{10,-44},
+          {10,-20},{2,-20}}, color={0,0,127}));
   annotation (
     Documentation(info="<html>
 <p>
