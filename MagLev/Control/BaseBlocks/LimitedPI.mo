@@ -25,8 +25,7 @@ partial block LimitedPI "Base for limited PI-controller with anti-windup and fee
         extent={{20,-20},{-20,20}})));
   parameter Real kp(unit="1")=1 "Proportional gain";
   parameter SI.Time Ti(min=Modelica.Constants.small)=1 "Integral time constant (T>0 required)";
-  parameter MagLev.Types.AntiWindup antiWindup=MagLev.Types.AntiWindup.BackCalc "Anti-Windup technique"
-    annotation(Dialog(enable=useI));
+  parameter MagLev.Types.AntiWindup antiWindup=MagLev.Types.AntiWindup.BackCalc "Anti-Windup technique";
   parameter Boolean useFF=false "Use feed-forward?"
     annotation(Dialog(group="Feed-forward"));
   parameter Real kFF(unit="1")=1 "Feed-forward gain"

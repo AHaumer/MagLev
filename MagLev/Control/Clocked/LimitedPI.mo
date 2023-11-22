@@ -4,7 +4,7 @@ block LimitedPI "Discrete limited PI-controller with anti-windup and feed-forwar
   extends BaseBlocks.LimitedPI;
   import MagLev.Types.AntiWindup;
   import MagLev.Control.Functions.piStep;
-  discrete output Real x(start=0) "integrator state";
+  output Real x(start=0) "integrator state";
 protected
   SI.Time Ts = interval(u) "Sample time";
   // avoid an algebraic loop / iteration for code on embedded controller
